@@ -1,6 +1,6 @@
 # @barelyhuman/pipe
 
-A tiny functional pipe util
+A tiny pipe utility
 
 ## Why?
 

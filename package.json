@@ -1,21 +1,31 @@
 {
-  "name": "pipe",
+  "name": "@barelyhuman/pipe",
   "version": "0.1.0",
   "main": "dist/main.js",
   "module": "dist/module.js",
   "types": "dist/index.d.ts",
   "source": "src/index.ts",
+  "repository": "barelyhuman/pipe",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "parcel watch",
     "build": "parcel build",
-    "test": "uvu -r tsm test"
+    "test": "uvu -r tsm test",
+    "next": "bumpp"
   },
+  "files": [
+    "dist",
+    "src"
+  ],
   "prettier": "@barelyhuman/prettier-config",
   "devDependencies": {
     "@barelyhuman/prettier-config": "^1.1.0",
     "@parcel/packager-ts": "2.8.3",
     "@parcel/transformer-typescript-types": "2.8.3",
+    "bumpp": "^8.2.1",
     "parcel": "^2.8.3",
     "prettier": "^2.8.3",
     "tsm": "^2.3.0",
