@@ -2,6 +2,8 @@
 
 A tiny pipe utility
 
+![npm](https://img.shields.io/npm/v/@barelyhuman/pipe?colorA=black&colorB=black&logoColor=black)
+
 ## Why?
 
 Tired of copying it around
