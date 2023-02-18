@@ -30,10 +30,6 @@
     "test": "uvu -r tsm test",
     "next": "bumpp"
   },
-  "files": [
-    "dist",
-    "src"
-  ],
   "prettier": "@barelyhuman/prettier-config",
   "devDependencies": {
     "@barelyhuman/prettier-config": "^1.1.0",
