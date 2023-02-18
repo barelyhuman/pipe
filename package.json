@@ -18,9 +18,9 @@
       "import": "./index.js",
       "require": "./index.cjs"
     },
-    "./array": {
-      "import": "./array.js",
-      "require": "./array.cjs"
+    "./*": {
+      "import": "./*.js",
+      "require": "./*.cjs"
     }
   },
   "scripts": {
@@ -28,6 +28,7 @@
     "types": "tsc",
     "dev": "node build.js -w",
     "test": "uvu -r tsm test",
+    "fix": "prettier --write .",
     "next": "bumpp"
   },
   "prettier": "@barelyhuman/prettier-config",

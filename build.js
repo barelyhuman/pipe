@@ -34,7 +34,6 @@ function createEntry(entry) {
   ]
 
   let filename = path.basename(entry)
-  console.log({ filename })
   return formats.map(x => {
     return {
       ...common,
@@ -48,7 +47,8 @@ function createEntry(entry) {
 async function main() {
   const configs = [].concat(
     createEntry('src/index.ts'),
-    createEntry('src/array.ts')
+    createEntry('src/array.ts'),
+    createEntry('src/async.ts')
   )
   await Promise.all(configs.map(x => esbuild.build(x)))
 }
