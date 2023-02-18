@@ -5,6 +5,12 @@ type ChainItem = {
   fn: Function
 }
 
+export type Plugin = {
+  name: string
+  mapper: boolean
+  do: Function
+}
+
 export const pipe = function (initData, chain: ChainItem[] = []) {
   let _data = initData
   if (_data && _data.__namespace === namespace) {
@@ -25,6 +31,18 @@ export const pipe = function (initData, chain: ChainItem[] = []) {
         chainType: 'normal',
         fn: fn,
       })
+      return this
+    },
+    plugin(plug: Plugin) {
+      if (!plug.do || typeof plug.do != 'function') {
+        throw new Error('do is required and needs to be a function')
+      }
+      this[plug.name] = function () {
+        if (plug.mapper) {
+          return this.map(plug.do)
+        }
+        return this.to(plug.do)
+      }
       return this
     },
     map(fn: Function) {
