@@ -1,12 +1,11 @@
 import { Plugin } from '.'
 
-const flatten = y =>
-  Array.isArray(y) ? y.reduce((acc, item) => acc.concat(flatten(item)), []) : y
+const _flatten = y =>
+  Array.isArray(y) ? y.reduce((acc, item) => acc.concat(_flatten(item)), []) : y
 
-export const addFlatten: Plugin<'flatten'> = {
-  name: 'flatten',
+export const flatten: Plugin = {
   mapper: false,
   async do(x: any[]) {
-    return flatten(x)
+    return _flatten(x)
   },
 }

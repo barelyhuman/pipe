@@ -1,9 +1,6 @@
 import { Plugin } from '.'
 
-export const addResolveAll: Plugin<'resolveAll'> = {
-  name: 'resolveAll',
+export const resolve: Plugin = {
   mapper: false,
-  async do(x: Promise<any>[]) {
-    return Promise.all(x)
-  },
-} 
+  do: x => Promise.all(x),
+}
