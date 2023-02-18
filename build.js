@@ -1,6 +1,7 @@
 import * as esbuild from 'esbuild'
 import Watcher from 'watcher'
 import glob from 'tiny-glob'
+import path from 'path'
 
 const watch = process.argv.slice(2).includes('-w')
 
@@ -8,59 +9,48 @@ const common = {
   logLevel: 'info',
 }
 
+function createEntry(entry) {
+  const formats = [
+    {
+      format: 'esm',
+      outfile(filename) {
+        let outFile = filename
+        if (filename.endsWith('.ts') || filename.endsWith('.js')) {
+          outFile = filename.replace(/\.ts$/, '.js')
+        }
+        return path.join('./dist', outFile)
+      },
+    },
+    {
+      format: 'cjs',
+      outfile(filename) {
+        let outFile = filename
+        if (filename.endsWith('.ts') || filename.endsWith('.js')) {
+          outFile = filename.replace(/\.ts$/, '.cjs')
+        }
+        return path.join('./dist', outFile)
+      },
+    },
+  ]
+
+  let filename = path.basename(entry)
+  console.log({ filename })
+  return formats.map(x => {
+    return {
+      ...common,
+      entryPoints: [].concat(entry),
+      format: x.format,
+      outfile: x.outfile(filename),
+    }
+  })
+}
+
 async function main() {
-  await core()
-  await array()
-}
-
-async function core() {
-  const entry = ['src/index.ts']
-  const output = [
-    {
-      path: 'dist/index.js',
-      format: 'esm',
-    },
-    {
-      path: 'dist/index.cjs',
-      format: 'cjs',
-    },
-  ]
-
-  const toBuild = output.map(async out => {
-    esbuild.build({
-      ...common,
-      outfile: out.path,
-      format: out.format,
-      entryPoints: entry,
-    })
-  })
-
-  return Promise.all(toBuild)
-}
-
-async function array() {
-  const entry = ['src/array.ts']
-  const output = [
-    {
-      path: 'dist/array.js',
-      format: 'esm',
-    },
-    {
-      path: 'dist/array.cjs',
-      format: 'cjs',
-    },
-  ]
-
-  const toBuild = output.map(async out => {
-    esbuild.build({
-      ...common,
-      outfile: out.path,
-      format: out.format,
-      entryPoints: entry,
-    })
-  })
-
-  return Promise.all(toBuild)
+  const configs = [].concat(
+    createEntry('src/index.ts'),
+    createEntry('src/array.ts')
+  )
+  await Promise.all(configs.map(x => esbuild.build(x)))
 }
 
 // if watching, watcher will execute an
