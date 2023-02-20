@@ -5,7 +5,7 @@ import { test } from 'uvu'
 test('sync resolve', async () => {
   const value = 1
   const x = await pipe(value).run()
-  
+
   assert.equal(x, value)
 })
 
@@ -40,7 +40,7 @@ test('multi value map', async () => {
 test('pipe closure sequenced', async () => {
   const basePipe = pipe(1).to(x => x * 2)
   const otherPipe = pipe(basePipe).to(x => x * 3)
-  
+
   assert.equal(await basePipe.run(), 2)
   assert.equal(await otherPipe.run(), 6)
 })

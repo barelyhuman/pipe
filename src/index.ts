@@ -18,8 +18,6 @@ type Pipe = {
   run(): Promise<any>
 }
 
-const RESTRICTED_PLUGIN_NAMES = ['map', 'to']
-
 export function pipe(initData: any, chain: ChainItem[] = []): Pipe {
   let _data = initData
   if (_data && _data.__namespace === namespace) {
@@ -66,17 +64,17 @@ export function pipe(initData: any, chain: ChainItem[] = []): Pipe {
         initValue = await _data
       }
       const chainableFn = function (acc, item: ChainItem) {
-        if (item.chainType === 'normal') {
-          return acc.then(function (prev) {
-            return item.fn(prev)
-          })
-        } else if (item.chainType === 'mapper') {
-          return acc.then(function (prev) {
-            return Array.isArray(prev) && prev.map(x => item.fn(x))
-          })
-        }
+        return acc.then(p => chainExecutor(p, item))
       }
       return chain.reduce(chainableFn, Promise.resolve(initValue))
     },
+  }
+}
+
+function chainExecutor(prev, item) {
+  if (item.chainType === 'normal') {
+    return item.fn(prev)
+  } else {
+    return Array.isArray(prev) && prev.map(x => item.fn(x))
   }
 }
