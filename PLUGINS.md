@@ -12,27 +12,53 @@ If you wish to write you own, [read how to](#write-your-own-plugins)
 
 ```js
 import { pipe } from '@barelyhuman/pipe'
-import { addFlatten } from '@barelyhuman/pipe/array'
+import { flatten } from '@barelyhuman/pipe/array'
 
 const value = await pipe([1, 2, [3, [4]]])
-  .plugins([addFlatten])
-  .flatten()
+  .use(flatten)
   .run()
+```
+
+### `groupBy`
+
+```js
+import { pipe } from '@barelyhuman/pipe'
+import { groupBy } from '@barelyhuman/pipe/array'
+
+const items = [1, 2, 1]
+const expected = { 1: [1, 1], 2: [2] }
+
+// without a key function, the grouping
+// uses the item itself. In this case the numbers
+const groupedBy = await pipe(items).use(groupBy()).run()
+assert.equal(groupedBy, expected)
+```
+
+```js
+const items = [{ id: 1 }, { id: 2 }, { id: 1 }]
+const expected = { 1: [{ id: 1 }, { id: 1 }], 2: [{ id: 2 }] }
+
+// with a key function, it groups based on the value
+// returned by the keygen function
+const groupedBy = await pipe(items)
+  .use(groupBy(x => x.id))
+  .run()
+
+assert.equal(groupedBy, expected)
 ```
 
 ## Async Plugins
 
-### `resolveAll`
+### `resolve`
 
 ```js
 import { pipe } from '@barelyhuman/pipe'
-import { addResolveAll } from '@barelyhuman/pipe/async'
-import { addFlatten } from '@barelyhuman/pipe/array'
+import { resolve } from '@barelyhuman/pipe/async'
+import { flatten } from '@barelyhuman/pipe/array'
 
 const value = await pipe([Promise.resolve(1), [Promise.resolve(2)]])
-  .plugins([addFlatten, addResolveAll])
-  .flatten()
-  .resolveAll()
+  .use(flatten)
+  .use(resolve)
   .run()
 ```
 
