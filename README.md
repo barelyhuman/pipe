@@ -67,6 +67,6 @@ needed and in a defined sequence, also makes it easier to extend.
 
 ### Plugins
 
-You can read about them in [PLUGINS.md](PLUGINS.md)
+You can read about them in [PLUGINS.md](/PLUGINS.md)
 
 [MIT](/LICENSE)
