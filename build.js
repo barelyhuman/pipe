@@ -46,13 +46,13 @@ function createEntry(entry) {
 }
 
 async function main() {
-  await copyAssets()
   const configs = [].concat(
     createEntry('src/index.ts'),
     createEntry('src/array.ts'),
     createEntry('src/async.ts')
   )
   await Promise.all(configs.map(x => esbuild.build(x)))
+  await copyAssets()
 }
 
 async function copyAssets() {
