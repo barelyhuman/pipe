@@ -2,6 +2,7 @@ import * as esbuild from 'esbuild'
 import Watcher from 'watcher'
 import glob from 'tiny-glob'
 import path from 'path'
+import fs from 'fs/promises'
 
 const watch = process.argv.slice(2).includes('-w')
 
@@ -45,12 +46,19 @@ function createEntry(entry) {
 }
 
 async function main() {
+  await copyAssets()
   const configs = [].concat(
     createEntry('src/index.ts'),
     createEntry('src/array.ts'),
     createEntry('src/async.ts')
   )
   await Promise.all(configs.map(x => esbuild.build(x)))
+}
+
+async function copyAssets() {
+  await fs.copyFile('./package.json', './dist/package.json')
+  await fs.copyFile('./LICENSE', './dist/LICENSE')
+  await fs.copyFile('./README.md', './dist/README.md')
 }
 
 // if watching, watcher will execute an
