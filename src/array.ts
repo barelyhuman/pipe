@@ -1,10 +1,12 @@
 import { Plugin } from '.'
 
 const _flatten = y =>
-  y && Array.isArray(y) ? y.reduce((acc, item) => acc.concat(_flatten(item)), []) : y
+  y && Array.isArray(y)
+    ? y.reduce((acc, item) => acc.concat(_flatten(item)), [])
+    : y
 
 const _groupBy = (x, keyGen) =>
-x && Array.isArray(x)
+  x && Array.isArray(x)
     ? x.reduce((acc, item) => {
         const key = keyGen(item)
         if (!acc[key]) {
