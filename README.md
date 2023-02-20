@@ -13,6 +13,7 @@ Tired of copying it around
 - Tiny API
 - Clonable
 - Lazy Execution
+- Plugins
 
 ## Usage
 
@@ -63,3 +64,9 @@ const valOne = await basePipe.run() // 2
 As shown in the examples the actual execution of the given data isn't started
 unless `.run` is triggered. This makes it easier to transfer context around if
 needed and in a defined sequence, also makes it easier to extend.
+
+### Plugins
+
+You can read about them in [PLUGINS.md](/PLUGINS.md)
+
+[MIT](/LICENSE)

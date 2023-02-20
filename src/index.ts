@@ -5,7 +5,22 @@ type ChainItem = {
   fn: Function
 }
 
-export const pipe = function (initData, chain: ChainItem[] = []) {
+export type Plugin = {
+  mapper?: boolean
+  do(...x: any[]): any
+}
+
+type Pipe = {
+  __namespace: symbol
+  to(x: any): Pipe
+  map(x: any): Pipe
+  use(plugs: Plugin): Pipe
+  run(): Promise<any>
+}
+
+const RESTRICTED_PLUGIN_NAMES = ['map', 'to']
+
+export function pipe(initData: any, chain: ChainItem[] = []): Pipe {
   let _data = initData
   if (_data && _data.__namespace === namespace) {
     chain.push({
@@ -18,6 +33,7 @@ export const pipe = function (initData, chain: ChainItem[] = []) {
   if (typeof initData === 'function') {
     _data = initData()
   }
+
   return {
     __namespace: namespace,
     to(fn: Function) {
@@ -26,6 +42,16 @@ export const pipe = function (initData, chain: ChainItem[] = []) {
         fn: fn,
       })
       return this
+    },
+    use(plug: Plugin) {
+      if (!plug.do || typeof plug.do != 'function') {
+        throw new Error('do is required and needs to be a function')
+      }
+
+      if (plug.mapper) {
+        return this.map(plug.do)
+      }
+      return this.to(plug.do)
     },
     map(fn: Function) {
       chain.push({
