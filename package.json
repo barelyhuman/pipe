@@ -19,9 +19,9 @@
   "main": "./index.cjs",
   "module": "./index.js",
   "scripts": {
-    "build": "node build.js",
-    "types": "tsc",
-    "dev": "node build.js -w",
+    "build": "tsup",
+    "dev": "tsup -w",
+    "build:post": "npx esno scripts/postbuild.ts",
     "test": "uvu -r tsm test",
     "fix": "prettier --write .",
     "next": "bumpp"
@@ -34,14 +34,16 @@
   "prettier": "@barelyhuman/prettier-config",
   "devDependencies": {
     "@barelyhuman/prettier-config": "^1.1.0",
+    "@types/node": "^18.14.0",
     "bumpp": "^8.2.1",
     "concurrently": "^7.6.0",
-    "esbuild": "^0.17.8",
+    "esno": "^0.16.3",
     "lint-staged": "^13.1.2",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.3",
     "tiny-glob": "^0.2.9",
     "tsm": "^2.3.0",
+    "tsup": "^6.6.3",
     "typescript": ">=3.0.0",
     "uvu": "^0.5.6",
     "watcher": "^2.2.2"

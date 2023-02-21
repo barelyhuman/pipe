@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "lib": ["ES2019"],
-    "declaration": true,
-    "forceConsistentCasingInFileNames": true,
-    "emitDeclarationOnly": true,
-    "outDir": "dist"
-  },
-  "include": ["src/*"]
+    "target": "es2017",
+    "module": "esnext",
+    "lib": ["esnext", "DOM"],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true
+  }
 }
