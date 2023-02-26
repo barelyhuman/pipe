@@ -27,7 +27,7 @@ jobs:
         run: yarn test
 
       - name: Compile
-        run: pnpm build; pnpm types;
+        run: pnpm build
 
       - name: Publish
         run: cd dist; npm publish
