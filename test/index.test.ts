@@ -58,10 +58,18 @@ test('async and sync mixed data mapper', async () => {
   const expectedResult = [2, 4, 6, 8]
 
   const result = await pipe(dataFetcher)
-    .to(x => Promise.all(x))
     .map(x => x * 2)
     .run()
 
+  assert.equal(result, expectedResult)
+})
+
+test('sync to async map of promises', async () => {
+  const init = [1, 2, 3, 4]
+  const expectedResult = [2, 4, 6, 8]
+  const result = await pipe(init)
+    .map(async x => x * 2)
+    .run()
   assert.equal(result, expectedResult)
 })
 

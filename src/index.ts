@@ -73,8 +73,15 @@ export function pipe(initData: any, chain: ChainItem[] = []): Pipe {
 
 function chainExecutor(prev, item) {
   if (item.chainType === 'normal') {
-    return item.fn(prev)
+    return pipe(item.fn(prev)).run()
   } else {
-    return Array.isArray(prev) && prev.map(x => item.fn(x))
+    return (
+      Array.isArray(prev) &&
+      Promise.all(
+        prev.map(x => {
+          return pipe(item.fn(x)).run()
+        })
+      )
+    )
   }
 }

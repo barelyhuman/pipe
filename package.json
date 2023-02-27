@@ -20,7 +20,7 @@
   "module": "./index.js",
   "scripts": {
     "build": "tsup",
-    "dev": "tsup -w",
+    "dev": "tsup --watch",
     "build:post": "npx esno scripts/postbuild.ts",
     "test": "uvu -r tsm test",
     "fix": "prettier --write .",

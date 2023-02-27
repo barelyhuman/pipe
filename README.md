@@ -29,9 +29,16 @@ Eg:
 const value = await Promise.all(something.map(id => fetchById(id)))
 
 // Could be written as
+
+// before v0.2.3
 const value = await pipe(something)
   .map(id => fetchById(id))
   .to(x => Promise.all(x))
+  .run()
+
+// from v0.2.3
+const value = await pipe(something)
+  .map(id => fetchById(id))
   .run()
 
 // or if you don't like magic then, but at this point
